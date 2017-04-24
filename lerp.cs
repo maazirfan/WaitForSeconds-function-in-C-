@@ -22,11 +22,12 @@ public class lerp : MonoBehaviour {
 	public Text timerText;
 	public bool entered;
 
-	public GameObject ResumBtn;
+
 
 
 
 	private bool alreadyWaiting = false;
+	private bool alreadyWaitingTwo = false;
 
 
 
@@ -36,7 +37,7 @@ public class lerp : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		start = false;
-		ResumBtn.SetActive (false);
+
 
 
 			}
@@ -61,41 +62,30 @@ public class lerp : MonoBehaviour {
 			}
 
 
-			if (currentPoint == 3 && !alreadyWaiting ) 
+			if (currentPoint == 3 && !alreadyWaiting) 
 			{
 				entered = true;
 				StartCoroutine ("Wait");     
 
 
-
-
-				//speed = 0;
-
 				//added extra code for testing
-				_timerRef.enabled = true;
-							
-							timer -= Time.deltaTime;
-							timerText.text = timer.ToString ("00");
-							_timerRef.fillAmount = timer * 0.1f;
+				timer -= Time.deltaTime;
+				timerText.text = timer.ToString ("00");
+				_timerRef.fillAmount = timer * 0.1f;
+				if (timer <= 0) 
+				{
+					timer = startTime;
+					entered = false;
+				}
 
-							if (timer <= 0 ) 
-							{
-								timer = startTime;
-//					start = false;
-//					Time.timeScale = 0;					
-									
-									if  (startTime == 0)
-									{
-						entered = false;
+			} 
+		
 
 
-									}
-							
-							}
-
-
+			if (currentPoint == 5 && !alreadyWaitingTwo)
+			{
+				StartCoroutine("WaitTwo");
 			}
-
 
 
 
@@ -103,7 +93,7 @@ public class lerp : MonoBehaviour {
 			{
  		
 				currentPoint = 11;
-				ResumBtn.SetActive (false);
+
 
 			}
 
@@ -120,6 +110,7 @@ public class lerp : MonoBehaviour {
 IEnumerator	 Wait()
 	{
 		
+		
 			start = false;
 			alreadyWaiting = true;
 			yield return new WaitForSeconds (10f);
@@ -133,10 +124,26 @@ IEnumerator	 Wait()
 
 		AlertSound.Play ();
 
-
 	}
 
+	IEnumerator	 WaitTwo()
+	{
 
+
+		start = false;
+		alreadyWaitingTwo = true;
+		yield return new WaitForSeconds (10f);
+		print (start);
+
+		start = true;
+		print (Time.time);
+
+
+		alreadyWaitingTwo = true;
+
+		AlertSound.Play ();
+
+	}
 
 
 
@@ -170,14 +177,7 @@ IEnumerator	 Wait()
 	}
 
 
-	public void ResumeJourner()
-	{
-		start = true;
-		speed = 3f;
-		
 
-
-	}
 
 
 
